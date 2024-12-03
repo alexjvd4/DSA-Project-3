@@ -1,16 +1,4 @@
 # DSA-Project-3
-## Team Name: Team Skibidi (Group 113)
-## Team Members: Alejandro Velez, Rich Nguyen, Hari Patel
-### Problem: We have a sales data set but we do not have a way to visualize or comb through the data to make it digestible.
-### Motivation: It is a problem because the data is just collected linearly and cannot be easily separated into collective groups.
-### Features: When anyone can easily figure out when an item is sold, where it’s sold, and all of its metadata within reasonable time (minutes of loading).
-### Data: Public Data Set: Kaggle Thousand Sales
-### Tools: C++, CLion IDE.
-### Visuals: (See below Wireframe)
-### Strategy: Hash Maps, Heaps
-### Distribution of Roles: Rich will work on inserting and searching through hashmaps, Alex will work on inserting and searching through the heaps, and Hari will work on the GUI.
-## References:
-### How to Use HashMap in C++? - GeeksforGeeks
-
-## Wireframe:
-### Console Output
+## Our projects goal is to compare how the data structures hashmap and heap compare.
+## We have a large database of sales records. The user will use have to load the cvs file we have. Enter the command load then load the file "sales_data.csv". 
+##The command we use to compare the performance of a hashmap and heap is the top_sale command. The user will enter "top_sale" to run the top_sale command. This command will pull the top performing sale from the CSV file and print it to the user. Thsi command will perform the search both with a heap and a hashmap and print out the performance of each data structure. 
