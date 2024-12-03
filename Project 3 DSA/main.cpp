@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 #include <unordered_map>
 #include <string>
 #include <sstream>
@@ -27,8 +28,11 @@ struct SalesData {
     double totalProfit;
 
     // Method to print detailed sales record
-    void printDetails() const {
+    void printDetails(const string& orderID = "") const {
         cout << fixed << setprecision(2);
+        if (!orderID.empty()) {
+            cout << "Order ID:         " << orderID << "\n";
+        }
         cout << "\n--- Order Details ---\n";
         cout << "Region:           " << region << "\n";
         cout << "Country:          " << country << "\n";
@@ -92,6 +96,14 @@ private:
             cout << "Error: Could not open file. Please try again.\n";
         }
     }
+
+    struct SalesDataComparator {
+        bool operator()(const pair<double, pair<string, SalesData>>& a,
+                        const pair<double, pair<string, SalesData>>& b) const {
+            // This ensures the priority queue ranks by total profit in descending order
+            return a.first < b.first;
+        }
+    };
 
 public:
     SalesDataCLI() : filename("") {}
@@ -242,6 +254,27 @@ public:
         }
     }
 
+
+
+    pair<string, SalesData> getTopSale() const {
+        if (salesMap.empty()) {
+            throw std::runtime_error("No sales data available");
+        }
+
+        // Create a max heap using a priority queue with custom comparator
+        priority_queue<pair<double, pair<string, SalesData>>,
+                vector<pair<double, pair<string, SalesData>>>,
+                SalesDataComparator> topSaleHeap;
+
+        // Insert all sales into the max heap with their Order IDs
+        for (const auto& entry : salesMap) {
+            topSaleHeap.push({entry.second.totalProfit, {entry.first, entry.second}});
+        }
+
+        // Return the top sale (highest profit) with its Order ID
+        return topSaleHeap.top().second;
+    }
+
     // Interactive Command-Line Interface
     void runCLI() {
         // Attempt to load data if filename was provided
@@ -259,6 +292,7 @@ public:
             cout << "  regions             - Show total profits by region\n";
             cout << "  countries           - Show total profits by country\n";
             cout << "  top_items [n]       - Show top performing items (default 5)\n";
+            cout << "  top_sale            - Show the top sale (highest profit)\n";
             cout << "  exit                - Exit the program\n";
             cout << "\nEnter command: ";
 
@@ -312,6 +346,21 @@ public:
                     topPerformingItems(n);
                 } else {
                     topPerformingItems(5);
+                }
+            }
+            else if (action == "top_sale") {
+                if (salesMap.empty()) {
+                    cout << "No data loaded. Please load a CSV file first.\n";
+                    continue;
+                }
+                try {
+                    // Get top sale with Order ID
+                    auto topSale = getTopSale();
+                    cout << "\n--- Top Sale (Highest Profit) ---\n";
+                    // Pass Order ID to printDetails method
+                    topSale.second.printDetails(topSale.first);
+                } catch (const exception& e) {
+                    cout << "Error: " << e.what() << endl;
                 }
             }
             else if (action == "exit") {
