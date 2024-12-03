@@ -1,16 +1,13 @@
-/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -G Ninja -S "/Users/haripatel/CLionProjects/Project 3 DSA" -B "/Users/haripatel/CLionProjects/Project 3 DSA/cmake-build-debug"
--- The C compiler identification is AppleClang 16.0.0.16000026
--- The CXX compiler identification is AppleClang 16.0.0.16000026
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Check for working C compiler: /Library/Developer/CommandLineTools/usr/bin/cc - skipped
--- Detecting C compile features
--- Detecting C compile features - done
--- Detecting CXX compiler ABI info
--- Detecting CXX compiler ABI info - done
--- Check for working CXX compiler: /Library/Developer/CommandLineTools/usr/bin/c++ - skipped
--- Detecting CXX compile features
--- Detecting CXX compile features - done
--- Configuring done (1.1s)
--- Generating done (0.0s)
--- Build files have been written to: /Users/haripatel/CLionProjects/Project 3 DSA/cmake-build-debug
+"C:\Program Files\JetBrains\CLion 2023.3.2\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" -S "C:\Users\alexj\CLionProjects\DSA\DSA-Project-3\Project 3 DSA" -B "C:\Users\alexj\CLionProjects\DSA\DSA-Project-3\Project 3 DSA\cmake-build-debug"
+CMake Deprecation Warning:
+  Support for "Extra Generators" like
+
+    CodeBlocks
+
+  is deprecated and will be removed from a future version of CMake.  IDEs may
+  use the cmake-file-api(7) to view CMake-generated project build trees.
+
+
+-- Configuring done (0.1s)
+-- Generating done (0.1s)
+-- Build files have been written to: C:/Users/alexj/CLionProjects/DSA/DSA-Project-3/Project 3 DSA/cmake-build-debug

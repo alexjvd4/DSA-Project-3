@@ -1,4 +1,4 @@
-#include <iostream>
+#include <queue>
 #include <unordered_map>
 #include <string>
 #include <sstream>
@@ -6,50 +6,15 @@
 #include <vector>
 #include <algorithm>
 #include <iomanip>
-#include <limits>
+#include "max_heap.h"
 
 using namespace std;
-
-// Sales Data Structure to represent each row of the CSV
-struct SalesData {
-    string region;
-    string country;
-    string itemType;
-    string salesChannel;
-    string orderPriority;
-    string orderDate;
-    string shipDate;
-    int unitsSold;
-    double unitPrice;
-    double unitCost;
-    double totalRevenue;
-    double totalCost;
-    double totalProfit;
-
-    // Method to print detailed sales record
-    void printDetails() const {
-        cout << fixed << setprecision(2);
-        cout << "\n--- Order Details ---\n";
-        cout << "Region:           " << region << "\n";
-        cout << "Country:          " << country << "\n";
-        cout << "Item Type:        " << itemType << "\n";
-        cout << "Sales Channel:    " << salesChannel << "\n";
-        cout << "Order Priority:   " << orderPriority << "\n";
-        cout << "Order Date:       " << orderDate << "\n";
-        cout << "Ship Date:        " << shipDate << "\n";
-        cout << "Units Sold:       " << unitsSold << "\n";
-        cout << "Unit Price:       $" << unitPrice << "\n";
-        cout << "Unit Cost:        $" << unitCost << "\n";
-        cout << "Total Revenue:    $" << totalRevenue << "\n";
-        cout << "Total Cost:       $" << totalCost << "\n";
-        cout << "Total Profit:     $" << totalProfit << "\n";
-    }
-};
 
 class SalesDataCLI {
 private:
     // Sales data stored in an unordered map with Order ID as key
     unordered_map<string, SalesData> salesMap;
+    max_heap salesHeap;
     string filename;
 
     // Trim whitespace from string
@@ -93,6 +58,14 @@ private:
         }
     }
 
+    struct SalesDataComparator {
+        bool operator()(const pair<double, pair<string, SalesData>>& a,
+                        const pair<double, pair<string, SalesData>>& b) const {
+            // This ensures the priority queue ranks by total profit in descending order
+            return a.first < b.first;
+        }
+    };
+
 public:
     SalesDataCLI() : filename("") {}
 
@@ -133,7 +106,7 @@ public:
 
                 // Order ID is the key
                 string orderID;
-                getline(ss, orderID, ',');
+                getline(ss, record.orderID, ',');
 
                 getline(ss, record.shipDate, ',');
 
@@ -157,6 +130,7 @@ public:
 
                 // Insert into map
                 salesMap[orderID] = record;
+                salesHeap.insert(record);
                 lineCount++;
             }
             catch (const exception& e) {
@@ -242,6 +216,17 @@ public:
         }
     }
 
+
+    // returns the top sale from the heap data, need a function to return the sale
+    pair<string, SalesData> getTopSale_Heap() {
+        if (salesMap.empty() && salesHeap.isEmpty()) {
+            throw std::runtime_error("No sales data available");
+        }
+
+        // Return the top sale (highest profhbnit) with its Order ID
+        return salesHeap.extractMax();
+    }
+
     // Interactive Command-Line Interface
     void runCLI() {
         // Attempt to load data if filename was provided
@@ -259,6 +244,7 @@ public:
             cout << "  regions             - Show total profits by region\n";
             cout << "  countries           - Show total profits by country\n";
             cout << "  top_items [n]       - Show top performing items (default 5)\n";
+            cout << "  top_sale            - Show the top sale (highest profit)\n";
             cout << "  exit                - Exit the program\n";
             cout << "\nEnter command: ";
 
@@ -312,6 +298,22 @@ public:
                     topPerformingItems(n);
                 } else {
                     topPerformingItems(5);
+                }
+            }
+            else if (action == "top_sale") {
+                if (salesMap.empty()) {
+                    cout << "No data loaded. Please load a CSV file first.\n";
+                    continue;
+                }
+                try {
+                    // Get top sale with Order ID from heap
+                    auto topSaleHeap = getTopSale_Heap();
+                    // need top sale from map here
+                    cout << "\n--- Top Sale (Highest Profit) ---\n";
+                    // Pass Order ID to printDetails method from heap need map
+                    topSaleHeap.second.printDetails(topSaleHeap.first);
+                } catch (const exception& e) {
+                    cout << "Error: " << e.what() << endl;
                 }
             }
             else if (action == "exit") {
