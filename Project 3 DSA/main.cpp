@@ -158,11 +158,10 @@ public:
 
     // Lookup a specific order by Order ID -- by heap
     void looupOrderHeap(const string& orderID){
-        vector<SalesData> heap = salesHeap.getHeap();
-        for (int i = 0; i < heap.size(); i++) {
-            if (heap[i].getID() == orderID) {
+        for(int i = 0; i < salesHeap.getHeap().size(); i++){
+            if(salesHeap.getHeap()[i].getID() == orderID){
                 cout << "Search by ID Heap" << endl;
-                heap[i].printDetails(orderID);
+                salesHeap.getHeap()[i].printDetails(orderID);
                 return;
             }
         }
