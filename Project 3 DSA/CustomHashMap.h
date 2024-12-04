@@ -87,7 +87,7 @@ public:
         return nullptr; // Not found
     }
 
-    // Find and display record with highest profit -- need chrono here
+    // Find and display record with highest profit
     // returns a pair of the orderID and sales data object translated from the record
     pair<string,SalesData> displayHighestProfitRecord() {
         SalesData highestProfitRecord;

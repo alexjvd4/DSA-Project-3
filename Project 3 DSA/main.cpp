@@ -2,6 +2,7 @@
 #include <sstream>
 #include <fstream>
 #include <algorithm>
+#include <chrono>
 #include "max_heap.h"
 #include "CustomHashMap.h"
 
@@ -175,7 +176,6 @@ public:
         if (salesHeap.isEmpty()) {
             throw std::runtime_error("No sales data available");
         }
-
         // Return the top sale (highest profhbnit) with its Order ID
         return salesHeap.extractMax();
     }
@@ -267,16 +267,41 @@ public:
                     continue;
                 }
                 try {
+                    // start time for the heap to get the top sale
+                    auto start = std::chrono::system_clock::now();
+
                     // Get top sale with Order ID from heap
                     auto topSaleHeap = getTopSale_Heap();
-                    // need top sale from map here
+
+                    // get end time and time elapsed for heap to get top sale
+                    auto end = std::chrono::system_clock::now();
+                    auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+
+                    // start time for the hash map to get the top sale
+                    auto start2 = std::chrono::system_clock::now();
+
+                    // get top sale from hash map
                     auto topSaleMap = getTopSale_Hash();
+
+                    // get end time and time elapsed for hash map to get top sale
+                    auto end2 = std::chrono::system_clock::now();
+                    auto elapsed2 = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+
+                    // print details for both heap and hash map
                     cout << "\n--- Top Sale Heap (Highest Profit) ---\n";
                     // Pass Order ID to printDetails method from heap
                     topSaleHeap.second.printDetails(topSaleHeap.first);
+
+                    // print heap elapsed time
+                    cout << "Heap Elapsed Time (Nanoseconds): " << elapsed.count() << endl;
+
                    cout << "\n--- Top Sale Hash Map (Highest Profit) ---\n";
                     // Pass Order ID to printDetails method from map
                     topSaleMap.second.printDetails(topSaleMap.first);
+
+                    // print hash map elapsed time
+                    cout << "Hash Map Elapsed Time (Nanoseconds): " << elapsed2.count() << endl;
+
                 } catch (const exception& e) {
                     cout << "Error: " << e.what() << endl;
                 }
