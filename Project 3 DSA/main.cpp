@@ -145,7 +145,7 @@ public:
         return true;
     }
 
-    // Lookup a specific order by Order ID -- only map
+    // Lookup a specific order by Order ID -- by map
     void lookupOrderMap(const string& orderID) {
         auto it = salesMap.find(orderID);
         if (it != nullptr) {
@@ -156,6 +156,7 @@ public:
         }
     }
 
+    // Lookup a specific order by Order ID -- by heap
     void looupOrderHeap(const string& orderID){
         for(int i = 0; i < salesHeap.getHeap().size(); i++){
             cout << salesHeap.getHeap()[i].getID() << endl;
@@ -241,8 +242,23 @@ public:
 
                 string orderID;
                 if (iss >> orderID) {
+                    // start time for the heap to get the record by ID
+                    auto start = std::chrono::system_clock::now();
                     looupOrderHeap(orderID);
+
+                    // get end time and time elapsed for heap to get the record by ID
+                    auto end = std::chrono::system_clock::now();
+                    auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+                    cout << "Heap Elapsed Time (nanoseconds): "<< elapsed.count() << endl;
+
+                    // start time for the hash map to get the record by ID
+                    auto start2 = std::chrono::system_clock::now();
                     lookupOrderMap(orderID);
+
+                    // get end time and time elapsed for hash map to get the record by ID
+                    auto end2 = std::chrono::system_clock::now();
+                    auto elapsed2 = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+                    cout << "Hash Map Elapsed Time (nanoseconds): "<< elapsed2.count() << endl;
                 } else {
                     cout << "Please provide an Order ID\n";
                 }
