@@ -8,23 +8,15 @@
 #include <iomanip>
 #include <fstream>
 #include <limits>
-#include <chrono>
+#include "SalesData.h"
 
 using namespace std;
 
 class CustomHashMap {
-public:
-    // Struct to store individual records (moved to public)
-    struct Record {
-        string fullRecord;
-        double totalProfit;
-        string orderID;
-
-        Record(const string& record = "", double profit = 0.0, const string& id = "")
-                : fullRecord(record), totalProfit(profit), orderID(id) {}
-    };
-
 private:
+    // number of records stored in the map
+    int num_records;
+
     // Prime number for hash calculation to reduce collisions
     static const int HASH_PRIME = 31;
 
@@ -40,7 +32,7 @@ private:
     };
 
     // Buckets are vectors to handle collisions via chaining
-    vector<vector<Record>> buckets;
+    vector<vector<SalesData>> buckets;
 
     // Custom hash function for Order ID
     size_t hashFunction(const string& orderID) {
@@ -60,60 +52,29 @@ private:
     }
 
 public:
-    // Make parseCSVLine public
-    vector<string> parseCSVLine(const string& line) {
-        vector<string> fields;
-        istringstream ss(line);
-        string field;
-        bool inQuotes = false;
-        string currentField;
-
-        for (char c : line) {
-            if (c == '"') {
-                inQuotes = !inQuotes;
-            } else if (c == ',' && !inQuotes) {
-                fields.push_back(trim(currentField));
-                currentField.clear();
-            } else {
-                currentField += c;
-            }
-        }
-        fields.push_back(trim(currentField));
-
-        return fields;
+    // be able to access the number of records
+    int& getNum_Records(){
+        return num_records;
     }
 
     // Constructor to initialize buckets
     CustomHashMap() : buckets(NUM_BUCKETS) {}
 
     // Insert a record into the hash map
-    void insert(const string& record) {
-        try {
-            // Parse the line
-            vector<string> cells = parseCSVLine(record);
-
-            // Ensure 14 columns
-            if (cells.size() != 14) {
-                cerr << "Invalid record format" << endl;
-                return;
-            }
-
-            // Extract Order ID (column 6, index 6)
-            string orderID = cells[6];
-
-            // Extract Total Profit (column 13, index 13)
-            double totalProfit = stod(cells[13]);
+    void insert(SalesData& record) {
+        try { // number of records increases
+            num_records++;
 
             // Calculate hash and insert
-            size_t bucketIndex = hashFunction(orderID);
-            buckets[bucketIndex].push_back(Record(record, totalProfit, orderID));
+            size_t bucketIndex = hashFunction(record.orderID);
+            buckets[bucketIndex].push_back(record);
         } catch (const exception& e) {
             cerr << "Error inserting record: " << e.what() << endl;
         }
     }
 
     // Find record by Order ID
-    Record* find(const string& orderID) {
+    SalesData* find(const string& orderID) {
         size_t bucketIndex = hashFunction(orderID);
 
         // Search through the specific bucket
@@ -126,10 +87,12 @@ public:
         return nullptr; // Not found
     }
 
-    // Find and display record with highest profit
-    void displayHighestProfitRecord() {
-        Record highestProfitRecord("", 0.0, "");
+    // Find and display record with highest profit -- need chrono here
+    // returns a pair of the orderID and sales data object translated from the record
+    pair<string,SalesData> displayHighestProfitRecord() {
+        SalesData highestProfitRecord;
 
+        // find the highestProfitRecord in the hash map
         for (const auto& bucket : buckets) {
             for (const auto& record : bucket) {
                 if (record.totalProfit > highestProfitRecord.totalProfit) {
@@ -138,21 +101,91 @@ public:
             }
         }
 
-        // If a record was found, display its details
-        if (!highestProfitRecord.fullRecord.empty()) {
-            vector<string> cells = parseCSVLine(highestProfitRecord.fullRecord);
-
-            cout << "\n--- Highest Profit Record Details ---" << endl;
-            cout << "Highest Profit: $" << fixed << setprecision(2)
-                 << highestProfitRecord.totalProfit << endl;
-
-            // Display all record details
-            for (size_t i = 0; i < headers.size() && i < cells.size(); ++i) {
-                cout << left << setw(20) << headers[i] + ": "
-                     << cells[i] << endl;
-            }
-        } else {
+        // If a record is not found display this, the main will display all SalesData
+        if (highestProfitRecord.isEmpty) {
             cout << "No records found." << endl;
+        }
+
+        // return the pair of the orderID and the SalesDat object itself for the main
+        return make_pair(highestProfitRecord.orderID,highestProfitRecord);
+    }
+
+    void aggregateByRegion(){
+        vector<pair<string,double>> regionalMap;
+        for (const auto& bucket : buckets) {
+            for (const auto& record : bucket) {
+                bool val = true;
+                for(auto & i : regionalMap){
+                    if(i.first == record.region) {
+                        i.second+= record.totalProfit;
+                        val = false;
+                        break;
+                    }
+                }
+                if(val) regionalMap.push_back(make_pair(record.region,0));
+            }
+        }
+        cout << "\n--- Total Profits by Region ---\n";
+        for(const auto& regionProfit: regionalMap){
+            cout << fixed << setprecision(2);
+            cout << regionProfit.first << ": $" << regionProfit.second << "\n";
+        }
+    }
+
+    void aggregateByCountry(){
+        vector<pair<string,double>> countryMap;
+        for (const auto& bucket : buckets) {
+            for (const auto& record : bucket) {
+                bool val = true;
+                for(auto & i : countryMap){
+                    if(i.first == record.country) {
+                        i.second+= record.totalProfit;
+                        val = false;
+                        break;
+                    }
+                }
+                if(val) countryMap.push_back(make_pair(record.country,0));
+            }
+        }
+        cout << "\n--- Total Profits by Country ---\n";
+        // Sort countries by profit
+        vector<pair<string, double>> sortedProfits(countryMap.begin(), countryMap.end());
+        sort(sortedProfits.begin(), sortedProfits.end(),
+             [](const auto& a, const auto& b) { return a.second > b.second; });
+        for (const auto& countryProfit : sortedProfits) {
+            cout << fixed << setprecision(2);
+            cout << countryProfit.first << ": $" << countryProfit.second << "\n";
+        }
+    }
+
+    void topPerformingItems(int& n){
+        vector<pair<string,double>> ItemMap;
+        for (const auto& bucket : buckets) {
+            for (const auto& record : bucket) {
+                bool val = true;
+                for(auto & i : ItemMap){
+                    if(i.first == record.itemType) {
+                        i.second+= record.totalProfit;
+                        val = false;
+                        break;
+                    }
+                }
+                if(val) ItemMap.push_back(make_pair(record.itemType,0));
+            }
+        }
+        // Sort items by profit
+        vector<pair<string, double>> sortedItems(
+                ItemMap.begin(), ItemMap.end()
+        );
+
+        sort(sortedItems.begin(), sortedItems.end(),
+             [](const auto& a, const auto& b) { return a.second > b.second; });
+
+        cout << "\n--- Top " << n << " Performing Items ---\n";
+        for (int i = 0; i < min(n, static_cast<int>(sortedItems.size())); ++i) {
+            cout << fixed << setprecision(2);
+            cout << (i+1) << ". " << sortedItems[i].first
+                 << ": $" << sortedItems[i].second << "\n";
         }
     }
 

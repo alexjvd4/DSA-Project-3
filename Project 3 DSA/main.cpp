@@ -1,19 +1,16 @@
-#include <queue>
-#include <unordered_map>
 #include <string>
 #include <sstream>
 #include <fstream>
-#include <vector>
 #include <algorithm>
-#include <iomanip>
 #include "max_heap.h"
+#include "CustomHashMap.h"
 
 using namespace std;
 
 class SalesDataCLI {
 private:
     // Sales data stored in an unordered map with Order ID as key
-    unordered_map<string, SalesData> salesMap;
+    CustomHashMap salesMap;
     max_heap salesHeap;
     string filename;
 
@@ -82,15 +79,13 @@ public:
             return false;
         }
 
-        // Clear existing data
-        salesMap.clear();
-
         // Skip header
         string line;
         getline(file, line);
 
         int lineCount = 0;
         while (getline(file, line)) {
+            // insert into map
             stringstream ss(line);
             SalesData record;
             string field;
@@ -128,9 +123,14 @@ public:
                 getline(ss, field, ',');
                 record.totalProfit = stod(field);
 
-                // Insert into map
-                salesMap[orderID] = record;
+                // current record is no longer empty
+                record.isEmpty = false;
+
+                // Insert into heap
                 salesHeap.insert(record);
+
+                // Insert into map
+                salesMap.insert(record);
                 lineCount++;
             }
             catch (const exception& e) {
@@ -139,92 +139,52 @@ public:
             }
         }
 
-        cout << "Successfully loaded " << salesMap.size() << " records from "
+        cout << "Successfully loaded " << salesMap.getNum_Records() << " records from "
              << filename << ".\n";
         return true;
     }
 
-    // Lookup a specific order by Order ID
-    void lookupOrder(const string& orderID) const {
+    // Lookup a specific order by Order ID -- only map
+    void lookupOrder(const string& orderID) {
         auto it = salesMap.find(orderID);
-        if (it != salesMap.end()) {
-            it->second.printDetails();
+        if (it != nullptr) {
+            it->printDetails(orderID);
         } else {
             cout << "Order ID not found: " << orderID << endl;
         }
     }
 
-    // Aggregate and display profits by region
-    void aggregateByRegion() const {
-        unordered_map<string, double> regionProfits;
-
-        for (const auto& pair : salesMap) {
-            regionProfits[pair.second.region] += pair.second.totalProfit;
-        }
-
-        cout << "\n--- Total Profits by Region ---\n";
-        for (const auto& regionProfit : regionProfits) {
-            cout << fixed << setprecision(2);
-            cout << regionProfit.first << ": $" << regionProfit.second << "\n";
-        }
+    // Aggregate and display profits by region -- only map
+    void aggregateByRegion() {
+        salesMap.aggregateByRegion();
     }
 
-    // Aggregate and display profits by country
-    void aggregateByCountry() const {
-        unordered_map<string, double> countryProfits;
-
-        for (const auto& pair : salesMap) {
-            countryProfits[pair.second.country] += pair.second.totalProfit;
-        }
-
-        cout << "\n--- Total Profits by Country ---\n";
-        // Sort countries by profit
-        vector<pair<string, double>> sortedProfits(
-                countryProfits.begin(), countryProfits.end()
-        );
-
-        sort(sortedProfits.begin(), sortedProfits.end(),
-             [](const auto& a, const auto& b) { return a.second > b.second; });
-
-        for (const auto& countryProfit : sortedProfits) {
-            cout << fixed << setprecision(2);
-            cout << countryProfit.first << ": $" << countryProfit.second << "\n";
-        }
+    // Aggregate and display profits by country -- only map
+    void aggregateByCountry() {
+        salesMap.aggregateByCountry();
     }
 
-    // Find and display top-performing items
-    void topPerformingItems(int n) const {
-        unordered_map<string, double> itemProfits;
-
-        for (const auto& pair : salesMap) {
-            itemProfits[pair.second.itemType] += pair.second.totalProfit;
-        }
-
-        // Sort items by profit
-        vector<pair<string, double>> sortedItems(
-                itemProfits.begin(), itemProfits.end()
-        );
-
-        sort(sortedItems.begin(), sortedItems.end(),
-             [](const auto& a, const auto& b) { return a.second > b.second; });
-
-        cout << "\n--- Top " << n << " Performing Items ---\n";
-        for (int i = 0; i < min(n, static_cast<int>(sortedItems.size())); ++i) {
-            cout << fixed << setprecision(2);
-            cout << (i+1) << ". " << sortedItems[i].first
-                 << ": $" << sortedItems[i].second << "\n";
-        }
+    // Find and display top-performing items -- only map
+    void topPerformingItems(int n) {
+        salesMap.topPerformingItems(n);
     }
-
 
     // returns the top sale from the heap data, need a function to return the sale
+    // need to use chrono here
     pair<string, SalesData> getTopSale_Heap() {
-        if (salesMap.empty() && salesHeap.isEmpty()) {
+        if (salesHeap.isEmpty()) {
             throw std::runtime_error("No sales data available");
         }
 
         // Return the top sale (highest profhbnit) with its Order ID
         return salesHeap.extractMax();
+    }
+
+    // top sale from hash map also need to use chrono
+    pair<string,SalesData> getTopSale_Hash(){
+        if(salesMap.getNum_Records()==0) throw std::runtime_error("No sales data available");
+
+        return salesMap.displayHighestProfitRecord();
     }
 
     // Interactive Command-Line Interface
@@ -262,7 +222,7 @@ public:
                 readCSV();
             }
             else if (action == "lookup") {
-                if (salesMap.empty()) {
+                if (salesMap.getNum_Records() == 0) {
                     cout << "No data loaded. Please load a CSV file first.\n";
                     continue;
                 }
@@ -275,21 +235,21 @@ public:
                 }
             }
             else if (action == "regions") {
-                if (salesMap.empty()) {
+                if (salesMap.getNum_Records() == 0) {
                     cout << "No data loaded. Please load a CSV file first.\n";
                     continue;
                 }
                 aggregateByRegion();
             }
             else if (action == "countries") {
-                if (salesMap.empty()) {
+                if (salesMap.getNum_Records() == 0) {
                     cout << "No data loaded. Please load a CSV file first.\n";
                     continue;
                 }
                 aggregateByCountry();
             }
             else if (action == "top_items") {
-                if (salesMap.empty()) {
+                if (salesMap.getNum_Records() == 0) {
                     cout << "No data loaded. Please load a CSV file first.\n";
                     continue;
                 }
@@ -300,8 +260,9 @@ public:
                     topPerformingItems(5);
                 }
             }
-            else if (action == "top_sale") {
-                if (salesMap.empty()) {
+            else if (action == "top_sale") { // here both the heap data and the hash map data are printed
+                // however a chrono is needed to also keep track of the time inorder to show which one is better
+                if (salesMap.getNum_Records() == 0 && salesHeap.isEmpty()) {
                     cout << "No data loaded. Please load a CSV file first.\n";
                     continue;
                 }
@@ -309,9 +270,13 @@ public:
                     // Get top sale with Order ID from heap
                     auto topSaleHeap = getTopSale_Heap();
                     // need top sale from map here
-                    cout << "\n--- Top Sale (Highest Profit) ---\n";
-                    // Pass Order ID to printDetails method from heap need map
+                    auto topSaleMap = getTopSale_Hash();
+                    cout << "\n--- Top Sale Heap (Highest Profit) ---\n";
+                    // Pass Order ID to printDetails method from heap
                     topSaleHeap.second.printDetails(topSaleHeap.first);
+                   cout << "\n--- Top Sale Hash Map (Highest Profit) ---\n";
+                    // Pass Order ID to printDetails method from map
+                    topSaleMap.second.printDetails(topSaleMap.first);
                 } catch (const exception& e) {
                     cout << "Error: " << e.what() << endl;
                 }

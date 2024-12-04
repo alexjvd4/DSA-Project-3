@@ -82,6 +82,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/alexj/CLionProjects/DSA/DSA-Project-3/Project 3 DSA/CustomHashMap.h">
+			<Option target="Project_3_DSA"/>
+		</Unit>
 		<Unit filename="C:/Users/alexj/CLionProjects/DSA/DSA-Project-3/Project 3 DSA/SalesData.h">
 			<Option target="Project_3_DSA"/>
 		</Unit>

@@ -6,6 +6,7 @@
 #define PROJECT_3_DSA_SALESDATA_H
 
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 // Sales Data Structure to represent each row of the CSV
@@ -24,6 +25,7 @@ struct SalesData {
     double totalRevenue;
     double totalCost;
     double totalProfit;
+    bool isEmpty;
 
     // Method to print detailed sales record
     void printDetails(const string& orderID = "") const {
