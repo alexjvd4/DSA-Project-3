@@ -149,7 +149,7 @@ public:
     void lookupOrderMap(const string& orderID) {
         auto it = salesMap.find(orderID);
         if (it != nullptr) {
-            cout << "Search by ID Haspmap" << endl;
+            cout << "Search by ID Hashmap" << endl;
             it->printDetails(orderID);
         } else {
             cout << "Order ID not found: " << orderID << endl;
@@ -158,14 +158,15 @@ public:
 
     // Lookup a specific order by Order ID -- by heap
     void looupOrderHeap(const string& orderID){
-        for(int i = 0; i < salesHeap.getHeap().size(); i++){
-            cout << salesHeap.getHeap()[i].getID() << endl;
-            if(salesHeap.getHeap()[i].getID() == orderID){
+        vector<SalesData> heap = salesHeap.getHeap();
+        for (int i = 0; i < heap.size(); i++) {
+            if (heap[i].getID() == orderID) {
                 cout << "Search by ID Heap" << endl;
-                salesHeap.getHeap()[i].printDetails(orderID);
-                break;
+                heap[i].printDetails(orderID);
+                return;
             }
         }
+        cout << "Order ID not found in Heap: " << orderID << endl;
     }
 
     // Aggregate and display profits by region -- only map
@@ -189,7 +190,7 @@ public:
         if (salesHeap.isEmpty()) {
             throw std::runtime_error("No sales data available");
         }
-        // Return the top sale (highest profhbnit) with its Order ID
+        // Return the top sale (highest profit) with its Order ID
         return salesHeap.extractMax();
     }
 
@@ -242,23 +243,19 @@ public:
 
                 string orderID;
                 if (iss >> orderID) {
-                    // start time for the heap to get the record by ID
-                    auto start = std::chrono::system_clock::now();
+                    // Timing for Heap lookup
+                    auto heapStart = std::chrono::high_resolution_clock::now();
                     looupOrderHeap(orderID);
+                    auto heapEnd = std::chrono::high_resolution_clock::now();
+                    auto heapElapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(heapEnd - heapStart);
+                    cout << "Heap Elapsed Time (nanoseconds): " << heapElapsed.count() << endl;
 
-                    // get end time and time elapsed for heap to get the record by ID
-                    auto end = std::chrono::system_clock::now();
-                    auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
-                    cout << "Heap Elapsed Time (nanoseconds): "<< elapsed.count() << endl;
-
-                    // start time for the hash map to get the record by ID
-                    auto start2 = std::chrono::system_clock::now();
+                    // Timing for HashMap lookup
+                    auto mapStart = std::chrono::high_resolution_clock::now();
                     lookupOrderMap(orderID);
-
-                    // get end time and time elapsed for hash map to get the record by ID
-                    auto end2 = std::chrono::system_clock::now();
-                    auto elapsed2 = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
-                    cout << "Hash Map Elapsed Time (nanoseconds): "<< elapsed2.count() << endl;
+                    auto mapEnd = std::chrono::high_resolution_clock::now();
+                    auto mapElapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(mapEnd - mapStart);
+                    cout << "Hash Map Elapsed Time (nanoseconds): " << mapElapsed.count() << endl;
                 } else {
                     cout << "Please provide an Order ID\n";
                 }
@@ -289,32 +286,31 @@ public:
                     topPerformingItems(5);
                 }
             }
-            else if (action == "top_sale") { // here both the heap data and the hash map data are printed
-                // however a chrono is needed to also keep track of the time inorder to show which one is better
+            else if (action == "top_sale") {
                 if (salesMap.getNum_Records() == 0 && salesHeap.isEmpty()) {
                     cout << "No data loaded. Please load a CSV file first.\n";
                     continue;
                 }
                 try {
                     // start time for the heap to get the top sale
-                    auto start = std::chrono::system_clock::now();
+                    auto start = std::chrono::high_resolution_clock::now();
 
                     // Get top sale with Order ID from heap
                     auto topSaleHeap = getTopSale_Heap();
 
                     // get end time and time elapsed for heap to get top sale
-                    auto end = std::chrono::system_clock::now();
+                    auto end = std::chrono::high_resolution_clock::now();
                     auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
 
                     // start time for the hash map to get the top sale
-                    auto start2 = std::chrono::system_clock::now();
+                    auto start2 = std::chrono::high_resolution_clock::now();
 
                     // get top sale from hash map
                     auto topSaleMap = getTopSale_Hash();
 
                     // get end time and time elapsed for hash map to get top sale
-                    auto end2 = std::chrono::system_clock::now();
-                    auto elapsed2 = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+                    auto end2 = std::chrono::high_resolution_clock::now();
+                    auto elapsed2 = std::chrono::duration_cast<std::chrono::nanoseconds>(end2 - start2);
 
                     // print details for both heap and hash map
                     cout << "\n--- Top Sale Heap (Highest Profit) ---\n";
@@ -324,7 +320,7 @@ public:
                     // print heap elapsed time
                     cout << "Heap Elapsed Time (Nanoseconds): " << elapsed.count() << endl;
 
-                   cout << "\n--- Top Sale Hash Map (Highest Profit) ---\n";
+                    cout << "\n--- Top Sale Hash Map (Highest Profit) ---\n";
                     // Pass Order ID to printDetails method from map
                     topSaleMap.second.printDetails(topSaleMap.first);
 

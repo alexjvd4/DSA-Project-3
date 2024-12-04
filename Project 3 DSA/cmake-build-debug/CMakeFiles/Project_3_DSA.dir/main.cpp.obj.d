@@ -156,7 +156,6 @@ CMakeFiles/Project_3_DSA.dir/main.cpp.obj: \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_tempbuf.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/pstl/glue_algorithm_defs.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/pstl/execution_defs.h \
-<<<<<<< Updated upstream
  C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/chrono \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/chrono.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ratio \
@@ -166,10 +165,7 @@ CMakeFiles/Project_3_DSA.dir/main.cpp.obj: \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/limits \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ctime \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/parse_numbers.h \
- C:\Users\alexj\CLionProjects\DSA\DSA-Project-3\Project\ 3\ DSA\max_heap.h \
-=======
  C:\Users\richn\CLionProjects\DSA-Project-3\Project\ 3\ DSA\max_heap.h \
->>>>>>> Stashed changes
  C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/iostream \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/vector \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_uninitialized.h \
@@ -185,9 +181,4 @@ CMakeFiles/Project_3_DSA.dir/main.cpp.obj: \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/locale_facets_nonio.tcc \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/locale_conv.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/quoted_string.h \
-<<<<<<< Updated upstream
- C:\Users\alexj\CLionProjects\DSA\DSA-Project-3\Project\ 3\ DSA\CustomHashMap.h
-=======
- C:\Users\richn\CLionProjects\DSA-Project-3\Project\ 3\ DSA\CustomHashMap.h \
- C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/limits
->>>>>>> Stashed changes
+ C:\Users\richn\CLionProjects\DSA-Project-3\Project\ 3\ DSA\CustomHashMap.h

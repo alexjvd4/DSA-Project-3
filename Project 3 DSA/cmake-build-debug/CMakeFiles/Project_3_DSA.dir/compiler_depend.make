@@ -186,19 +186,11 @@ CMakeFiles/Project_3_DSA.dir/main.cpp.obj: C:/Users/richn/CLionProjects/DSA-Proj
   C:/Users/richn/CLionProjects/DSA-Project-3/Project\ 3\ DSA/max_heap.h
 
 
-<<<<<<< Updated upstream
-C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/postypes.h:
-=======
 C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/pstl/execution_defs.h:
->>>>>>> Stashed changes
 
 C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bit:
 
-<<<<<<< Updated upstream
-C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/ios_base.h:
-=======
 C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_iterator.h:
->>>>>>> Stashed changes
 
 C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/basic_string.tcc:
 
@@ -226,11 +218,11 @@ C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32
 
 C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/charconv.h:
 
-C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/ios_base.h:
+C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/postypes.h:
 
 C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_uninitialized.h:
 
-C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/postypes.h:
+C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/ios_base.h:
 
 C:/Program\ Files/JetBrains/CLion\ 2023.3.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/alloc_traits.h:
 
