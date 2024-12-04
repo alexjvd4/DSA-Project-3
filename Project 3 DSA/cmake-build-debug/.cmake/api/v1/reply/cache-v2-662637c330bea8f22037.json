@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "c:/Users/alexj/CLionProjects/DSA/DSA-Project-3/Project 3 DSA/cmake-build-debug"
+			"value" : "c:/Users/richn/CLionProjects/DSA-Project-3/Project 3 DSA/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -643,7 +643,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/alexj/CLionProjects/DSA/DSA-Project-3/Project 3 DSA/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "C:/Users/richn/CLionProjects/DSA-Project-3/Project 3 DSA/cmake-build-debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -715,7 +715,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/alexj/CLionProjects/DSA/DSA-Project-3/Project 3 DSA"
+			"value" : "C:/Users/richn/CLionProjects/DSA-Project-3/Project 3 DSA"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -1351,7 +1351,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/alexj/CLionProjects/DSA/DSA-Project-3/Project 3 DSA/cmake-build-debug"
+			"value" : "C:/Users/richn/CLionProjects/DSA-Project-3/Project 3 DSA/cmake-build-debug"
 		},
 		{
 			"name" : "Project_3_DSA_IS_TOP_LEVEL",
@@ -1375,7 +1375,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/alexj/CLionProjects/DSA/DSA-Project-3/Project 3 DSA"
+			"value" : "C:/Users/richn/CLionProjects/DSA-Project-3/Project 3 DSA"
 		},
 		{
 			"name" : "_CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED",

@@ -146,12 +146,24 @@ public:
     }
 
     // Lookup a specific order by Order ID -- only map
-    void lookupOrder(const string& orderID) {
+    void lookupOrderMap(const string& orderID) {
         auto it = salesMap.find(orderID);
         if (it != nullptr) {
+            cout << "Search by ID Haspmap" << endl;
             it->printDetails(orderID);
         } else {
             cout << "Order ID not found: " << orderID << endl;
+        }
+    }
+
+    void looupOrderHeap(const string& orderID){
+        for(int i = 0; i < salesHeap.getHeap().size(); i++){
+            cout << salesHeap.getHeap()[i].getID() << endl;
+            if(salesHeap.getHeap()[i].getID() == orderID){
+                cout << "Search by ID Heap" << endl;
+                salesHeap.getHeap()[i].printDetails(orderID);
+                break;
+            }
         }
     }
 
@@ -229,7 +241,8 @@ public:
 
                 string orderID;
                 if (iss >> orderID) {
-                    lookupOrder(orderID);
+                    looupOrderHeap(orderID);
+                    lookupOrderMap(orderID);
                 } else {
                     cout << "Please provide an Order ID\n";
                 }

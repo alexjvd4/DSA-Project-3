@@ -53,10 +53,10 @@ RM = "C:\Program Files\JetBrains\CLion 2023.3.2\bin\cmake\win\x64\bin\cmake.exe"
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "C:\Users\alexj\CLionProjects\DSA\DSA-Project-3\Project 3 DSA"
+CMAKE_SOURCE_DIR = "C:\Users\richn\CLionProjects\DSA-Project-3\Project 3 DSA"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "C:\Users\alexj\CLionProjects\DSA\DSA-Project-3\Project 3 DSA\cmake-build-debug"
+CMAKE_BINARY_DIR = "C:\Users\richn\CLionProjects\DSA-Project-3\Project 3 DSA\cmake-build-debug"
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -80,14 +80,14 @@ clean: CMakeFiles/Project_3_DSA.dir/clean
 CMakeFiles/Project_3_DSA.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Project_3_DSA.dir\build.make CMakeFiles/Project_3_DSA.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Project_3_DSA.dir\build.make CMakeFiles/Project_3_DSA.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="C:\Users\alexj\CLionProjects\DSA\DSA-Project-3\Project 3 DSA\cmake-build-debug\CMakeFiles" --progress-num=1,2 "Built target Project_3_DSA"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="C:\Users\richn\CLionProjects\DSA-Project-3\Project 3 DSA\cmake-build-debug\CMakeFiles" --progress-num=1,2 "Built target Project_3_DSA"
 .PHONY : CMakeFiles/Project_3_DSA.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Project_3_DSA.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\alexj\CLionProjects\DSA\DSA-Project-3\Project 3 DSA\cmake-build-debug\CMakeFiles" 2
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\richn\CLionProjects\DSA-Project-3\Project 3 DSA\cmake-build-debug\CMakeFiles" 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/Project_3_DSA.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\alexj\CLionProjects\DSA\DSA-Project-3\Project 3 DSA\cmake-build-debug\CMakeFiles" 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\richn\CLionProjects\DSA-Project-3\Project 3 DSA\cmake-build-debug\CMakeFiles" 0
 .PHONY : CMakeFiles/Project_3_DSA.dir/rule
 
 # Convenience name for target.

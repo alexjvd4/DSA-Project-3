@@ -51,9 +51,9 @@ public:
             throw out_of_range("Heap is empty");
         }
         SalesData max = heap[0];
-        heap[0] = heap.back();
-        heap.pop_back();
-        heapifyDown(0);
+        //heap[0] = heap.back();
+        //heap.pop_back();
+        //heapifyDown(0);
         return make_pair(max.orderID,max);
     }
 
@@ -70,6 +70,9 @@ public:
 
     bool isEmpty() const {
         return heap.empty();
+    }
+    vector<SalesData> getHeap(){
+        return heap;
     }
 };
 #endif //PROJECT_3_DSA_MAX_HEAP_H

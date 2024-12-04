@@ -48,6 +48,10 @@ struct SalesData {
         cout << "Total Cost:       $" << totalCost << "\n";
         cout << "Total Profit:     $" << totalProfit << "\n";
     }
+
+    string getID(){
+        return orderID;
+    }
 };
 
 #endif //PROJECT_3_DSA_SALESDATA_H
